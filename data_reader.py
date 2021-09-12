@@ -9,6 +9,7 @@ import sys
 from id_allocator import IdAllocator
 from hyper_param import param_dict as pd
 
+
 def normalize_recommend(rec_list, max_len):
     """
     If len(rec_list) < max_len, rec_list will be dropped.

@@ -20,6 +20,7 @@ g_working_mode = 'local_train'
 g_training = False
 g_dr = DataReader(pd['batch_size'])
 
+
 class PolicyNetwork(object):
     def __init__(self):
         # placeholder
@@ -37,7 +38,8 @@ class PolicyNetwork(object):
         params = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='main/policy')
         params.extend(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='main/feat_embedding'))
         self.grads = tf.clip_by_global_norm(tf.gradients(self.loss, params), pd['grad_clip'])[0]
-        policy_grads = tf.clip_by_global_norm(tf.gradients(ys=self.mea, xs=params, grad_ys=self.a_grads), pd['grad_clip'])[0]
+        policy_grads = \
+            tf.clip_by_global_norm(tf.gradients(ys=self.mea, xs=params, grad_ys=self.a_grads), pd['grad_clip'])[0]
         opt1 = tf.train.AdamOptimizer(-pd['lr'])
         opt2 = tf.train.AdamOptimizer(pd['lr'])
         with tf.variable_scope("train_policy"):
@@ -129,7 +131,8 @@ class ValueNetwork(object):
         # target networks
         _, self.tq = self.build_net('target')
         diff = tf.reshape(self.ph_reward, [-1]) + tf.scalar_mul(tf.constant(pd['gamma']),
-                                                             tf.reshape(self.ph_nq, [-1])) - tf.reshape(self.mq, [-1])
+                                                                tf.reshape(self.ph_nq, [-1])) - tf.reshape(self.mq,
+                                                                                                           [-1])
         self.loss = tf.reduce_mean(tf.square(diff))
         self.a_grads = tf.clip_by_global_norm(tf.gradients(self.mq, self.dst_embed), pd['grad_clip'])[0]
         vs = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='main/value')
@@ -273,6 +276,7 @@ def handle(sess, actor, critic, sess_data):
         aq = critic.critic(sess, phd).reshape([-1])
         for i in range(len(rwd)):
             print('>>> reward:%f return:%f actor:%f critic:%f', rwd[i], rtn[i], aq[i], cq[i])
+
 
 def work():
     sess = tf.Session()
