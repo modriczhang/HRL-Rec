@@ -10,6 +10,10 @@ The low-level agent is a channel selector, which generates a personalized channe
 
 HRL-Rec has also been deployed on WeChat Top Stories, affecting millions of users.
 
+### Requirements:
+- Python 3.9
+- Tensorflow 2.5.0-rc0
+
 ## Note
 
 In the actual online system, HRL-Rec is a complex re-ranking framework implemented in C++. All models are trained based on a deeply customized version of distributed tensorflow supporting large-scale sparse features.
@@ -17,3 +21,7 @@ In the actual online system, HRL-Rec is a complex re-ranking framework implement
 Without massive data and machine resources, training HRL-Rec is not realistic.
 
 Therefore, the open source code here only implements a simplified version of its core ideas for the reference of interested researchers. If there are any errors, please contact me. Thanks!
+
+## About
+
+"Hierarchical Reinforcement Learning for Integrated Recommendation" ([AAAI 2020](https://ojs.aaai.org/index.php/AAAI/article/view/16580))
